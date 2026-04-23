@@ -6,6 +6,21 @@ public class Compiler : MonoBehaviour
 {
     public TMP_InputField inputField;
 
+    /*
+     * Valid Commands
+     * - move_right(10)
+     * - Move Left
+     * - Jump ?
+     * - 
+     * 
+     */
+
+    /*
+     * 
+     * 
+     * 
+     */
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
