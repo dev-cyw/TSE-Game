@@ -220,7 +220,7 @@ MonoBehaviour:
   m_OnEndEdit:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 180992048}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: test, Assembly-CSharp
         m_MethodName: Testing
         m_Mode: 1
@@ -391,7 +391,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 100434856}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 180992050}
+        m_TargetAssemblyTypeName: Compiler, Assembly-CSharp
+        m_MethodName: ParseCommands
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &100434856
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -576,7 +588,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 180992049}
-  - component: {fileID: 180992048}
+  - component: {fileID: 180992050}
   m_Layer: 0
   m_Name: CodingSystem
   m_TagString: Untagged
@@ -584,18 +596,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &180992048
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 180992047}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 092cb82a4e2888d4da41d06c0815c629, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::test
 --- !u!4 &180992049
 Transform:
   m_ObjectHideFlags: 0
@@ -611,6 +611,19 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &180992050
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 180992047}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8e5e3f45a03d6fa4097e71fcfc647fbd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Compiler
+  inputField: {fileID: 83640251}
 --- !u!1 &230655420
 GameObject:
   m_ObjectHideFlags: 0
