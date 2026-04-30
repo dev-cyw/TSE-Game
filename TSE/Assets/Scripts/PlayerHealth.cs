@@ -18,7 +18,7 @@ public class Player : MonoBehaviour
         }
     }
 
-    private void Die()
+    public void Die()
     {
         string currentSceneName = SceneManager.GetActiveScene().name;
         SceneManager.LoadScene(currentSceneName);

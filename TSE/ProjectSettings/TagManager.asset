@@ -6,6 +6,8 @@ TagManager:
   tags:
   - Spike
   - Door
+  - FalseDoor
+  - CrouchTrap
   layers:
   - Default
   - TransparentFX
