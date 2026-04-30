@@ -731,7 +731,7 @@ BoxCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: -5.0016985, y: -4.962001}
+  m_Offset: {x: -5.0016985, y: -4.8248215}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -741,7 +741,7 @@ BoxCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 11.996603, y: 0.30548716}
+  m_Size: {x: 11.996603, y: 0.5798459}
   m_EdgeRadius: 0
 --- !u!1 &1073167871
 GameObject:
@@ -2800,7 +2800,7 @@ BoxCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: 2.5447016, y: -3.9502459}
+  m_Offset: {x: 2.5447016, y: -3.822865}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -2810,7 +2810,7 @@ BoxCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 1.1021547, y: 0.3095379}
+  m_Size: {x: 1.1021547, y: 0.5642996}
   m_EdgeRadius: 0
 --- !u!50 &1738481019
 Rigidbody2D:
@@ -3270,6 +3270,10 @@ PrefabInstance:
     - target: {fileID: 5629611024081452586, guid: 489682447e923af4c9e212a9e32b607a, type: 3}
       propertyPath: m_Name
       value: Knight
+      objectReference: {fileID: 0}
+    - target: {fileID: 6063259555018887345, guid: 489682447e923af4c9e212a9e32b607a, type: 3}
+      propertyPath: m_SortingOrder
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
