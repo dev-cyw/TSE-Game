@@ -240,5 +240,6 @@ MonoBehaviour:
   groundCheckRadius: 0.15
   groundLayer:
     serializedVersion: 2
-    m_Bits: 1
+    m_Bits: 8
   rb: {fileID: 9088295481902379862}
+  sr: {fileID: 6063259555018887345}

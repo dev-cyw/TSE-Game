@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -15,10 +16,13 @@ public class PlayerMovement2D : MonoBehaviour
 
     [Header("References")]
     public Rigidbody2D rb;
+    public SpriteRenderer sr;
 
     // New Input System
     private InputAction _moveAction;
     private InputAction _jumpAction;
+
+    private Animator animator;
 
     private void Reset()
     {
@@ -40,6 +44,8 @@ public class PlayerMovement2D : MonoBehaviour
 
         _jumpAction = new InputAction(type: InputActionType.Button);
         _jumpAction.AddBinding("<Keyboard>/space");
+
+        animator = GetComponent<Animator>();
     }
 
     private void OnEnable()
@@ -59,6 +65,22 @@ public class PlayerMovement2D : MonoBehaviour
     {
         float x = _moveAction.ReadValue<float>();
         rb.linearVelocity = new Vector2(x * moveSpeed, rb.linearVelocity.y);
+
+        if (rb.linearVelocity.x < 0) sr.flipX = true;
+        if (rb.linearVelocity.x > 0) sr.flipX = false;
+
+        animator.SetFloat("LinearVelocity", Mathf.Abs(x));
+        animator.SetFloat("VerticalVelocity", rb.linearVelocity.y);
+        if (!IsGrounded())
+        {
+            animator.SetBool("isGrounded", false);
+
+        }
+        else
+        {
+            animator.SetBool("isGrounded", true);
+        } 
+            
     }
 
     private void OnJump(InputAction.CallbackContext ctx)
@@ -67,6 +89,9 @@ public class PlayerMovement2D : MonoBehaviour
 
         rb.linearVelocity = new Vector2(rb.linearVelocity.x, 0f);
         rb.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
+        animator.SetBool("isGrounded", false);
+
+
     }
 
     private bool IsGrounded()
