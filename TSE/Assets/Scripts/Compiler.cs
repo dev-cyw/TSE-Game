@@ -1,89 +1,99 @@
+ï»¿using System;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
+public class Command
+{
+    public string Name { get; }
+    public bool HasArgs { get; }
+    public Action<string> Execute { get; }
+
+    public Command(string name, bool hasArgs, Action<string> execute)
+    {
+        Name = name;
+        HasArgs = hasArgs;
+        Execute = execute;
+    }
+}
+
+
+
 public class Compiler : MonoBehaviour
 {
     public TMP_InputField inputField;
-
-    /*
-     * Valid Commands
-     * - move_right(10)
-     * - Move Left
-     * - Jump ?
-     * - 
-     * 
-     */
-
-    void Start()
+    private static readonly List<Command> ValidCommands = new()
     {
-
+        new Command("move_right", true, move_right),
+        new Command("jump", false, jump)
+    };
+    private static void move_right(string arg)
+    {
+        print("Move right " + arg);
     }
 
-    void Update()
+    private static void jump(string arg)
     {
-
+        print("JUMP!");
     }
 
     public void ParseCommands()
     {
         string[] lines = inputField.text.Split(';');
-        List<string> commands = new List<string>();
+        Queue<(Command cmd, string arg)> commandQueue = new();
 
         foreach (string line in lines)
         {
             string trimmed = line.Trim();
-            if (string.IsNullOrEmpty(trimmed)) continue;
-
-            if (!ValidateCommand(trimmed))     
+            
+            if(string.IsNullOrEmpty(trimmed)) { continue; }
+            
+            if (ValidateCommand(trimmed, out Command cmd, out string arg))
             {
-                print($"Aborting at: \"{trimmed}\"");
-                return;
+                commandQueue.Enqueue((cmd, arg));
             }
-
-            commands.Add(trimmed);
+            else
+            {
+                Debug.LogWarning("Error command not valid");
+            }
         }
 
-        foreach (string command in commands)
-            print($"Executing: {command}");
+        while (commandQueue.Count > 0)
+        {
+            var (cmd, arg) = commandQueue.Dequeue();
+            cmd.Execute(arg);
+        }
     }
 
-    private static readonly Dictionary<string, bool> ValidCommands = new Dictionary<string, bool>
+    private bool ValidateCommand(string input, out Command matched, out string arg)
     {
-        { "move_right", true },
-        { "move_left", true },
-        { "jump", false }
-    };
+        matched = null;
+        arg = string.Empty;
 
-    private bool ValidateCommand(string command)
-    {
-        // requires brackets always, only allows integers
-        Match m = Regex.Match(command, @"^(\w+)\(\s*(-?\d+)?\s*\)$");
-        if (!m.Success)
+        int parenOpen = input.IndexOf('(');
+        int parenClose = input.IndexOf(')');
+
+        string commandName = parenOpen >= 0
+            ? input[..parenOpen].Trim()
+            : input.Trim();
+
+        if (parenOpen >= 0 && parenClose > parenOpen)
         {
-            print($"Syntax error: \"{command}\" — did you forget brackets?");
-            return false;
+            arg = input[(parenOpen + 1)..parenClose].Trim();
         }
 
-        string name = m.Groups[1].Value;
-        bool hasArg = m.Groups[2].Success;
-
-        if (!ValidCommands.TryGetValue(name, out bool needsArg))
+        foreach (Command cmd in ValidCommands)
         {
-            print($"Unknown command: \"{name}\"");
-            return false;
+            if (cmd.Name == commandName)
+            {
+                if (cmd.HasArgs && string.IsNullOrEmpty(arg)) return false;
+                if (!cmd.HasArgs && !string.IsNullOrEmpty(arg)) return false;
+                matched = cmd;
+                return true;
+            }
         }
-
-        if (needsArg != hasArg)
-        {
-            print(needsArg
-                ? $"{name} requires a number e.g. {name}(10)"
-                : $"{name} takes no arguments e.g. {name}()");
-            return false;
-        }
-
-        return true;
+        return false;
     }
 }
