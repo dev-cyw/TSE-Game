@@ -38,7 +38,7 @@ public class Player : MonoBehaviour
         }
         else if (collision.gameObject.CompareTag("CrouchTrap")) //check if the player collides with the crouch trap
         {
-            health -= 25;   //damage the player
+            health -= 100;   //damage the player
             {
                 if (health <= 0)
                 {

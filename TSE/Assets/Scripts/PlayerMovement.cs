@@ -14,6 +14,12 @@ public class PlayerMovement2D : MonoBehaviour
     public float groundCheckRadius = 0.15f;
     public LayerMask groundLayer;
 
+    [Header("Crouch")]
+    public float crouchSpeed = 4f;
+    public float crouchScale = 0.5f;
+    private Vector3 normalScale;
+    private bool isCrouching = false;
+
     [Header("References")]
     public Rigidbody2D rb;
     public SpriteRenderer sr;
@@ -21,6 +27,7 @@ public class PlayerMovement2D : MonoBehaviour
     // New Input System
     private InputAction _moveAction;
     private InputAction _jumpAction;
+    private InputAction _crouchAction;
 
     private Animator animator;
 
@@ -34,8 +41,9 @@ public class PlayerMovement2D : MonoBehaviour
         if (rb == null) rb = GetComponent<Rigidbody2D>();
         rb.freezeRotation = true;
 
-        // Creates an action that reads WASD + Arrow keys as a Vector2
-        _moveAction = new InputAction(type: InputActionType.Value, binding: "<Gamepad>/leftStick");
+        normalScale = transform.localScale;
+
+        _moveAction = new InputAction(type: InputActionType.Value);
         _moveAction.AddCompositeBinding("1DAxis")
             .With("Negative", "<Keyboard>/a")
             .With("Negative", "<Keyboard>/leftArrow")
@@ -45,6 +53,9 @@ public class PlayerMovement2D : MonoBehaviour
         _jumpAction = new InputAction(type: InputActionType.Button);
         _jumpAction.AddBinding("<Keyboard>/space");
 
+        _crouchAction = new InputAction(type: InputActionType.Button);
+        _crouchAction.AddBinding("<Keyboard>/c");
+
         animator = GetComponent<Animator>();
     }
 
@@ -53,17 +64,27 @@ public class PlayerMovement2D : MonoBehaviour
         _moveAction.Enable();
         _jumpAction.Enable();
         _jumpAction.performed += OnJump;
+
+        _crouchAction.Enable();
+        _crouchAction.performed += OnCrouchPressed;
+        _crouchAction.canceled += OnCrouchReleased;
     }
     private void OnDisable()
     {
         _moveAction.Disable();
         _jumpAction.Disable();
         _jumpAction.performed -= OnJump;
+
+        _crouchAction.Disable();
+        _crouchAction.performed -= OnCrouchPressed;
+        _crouchAction.canceled -= OnCrouchReleased;
     }
 
     private void FixedUpdate()
     {
         float x = _moveAction.ReadValue<float>();
+
+        float currentSpeed = isCrouching ? crouchSpeed : moveSpeed;
         rb.linearVelocity = new Vector2(x * moveSpeed, rb.linearVelocity.y);
 
         if (rb.linearVelocity.x < 0) sr.flipX = true;
@@ -71,6 +92,7 @@ public class PlayerMovement2D : MonoBehaviour
 
         animator.SetFloat("LinearVelocity", Mathf.Abs(x));
         animator.SetFloat("VerticalVelocity", rb.linearVelocity.y);
+        animator.SetBool("isCrouching", isCrouching);
         if (!IsGrounded())
         {
             animator.SetBool("isGrounded", false);
@@ -87,16 +109,54 @@ public class PlayerMovement2D : MonoBehaviour
     {
         if (!IsGrounded()) return;
 
+        Debug.Log($"Normal Scale before jump: {normalScale}");
+        Debug.Log($"Current Scale before jump: {transform.localScale}");
+
+        isCrouching = false;
+        UpdateCrouchScale();
+
+        Debug.Log($"Current Scale after jump: {transform.localScale}");
+
         rb.linearVelocity = new Vector2(rb.linearVelocity.x, 0f);
         rb.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
         animator.SetBool("isGrounded", false);
-
-
     }
+
+    private void OnCrouchPressed(InputAction.CallbackContext ctx)
+    {
+        Debug.Log("Crouch Pressed");
+        if (!IsGrounded()) return;  
+
+        isCrouching = true;
+        UpdateCrouchScale();
+    }
+
+    private void OnCrouchReleased(InputAction.CallbackContext ctx)
+    {
+        Debug.Log("Crouch Released");
+        isCrouching = false;
+        UpdateCrouchScale();
+    }
+
+    private void UpdateCrouchScale()
+    {
+        if (isCrouching)
+        {
+            transform.localScale = new Vector3(normalScale.x, normalScale.y * crouchScale, normalScale.z);
+        }
+        else
+        {
+            transform.localScale = normalScale;
+        }
+    }
+
 
     private bool IsGrounded()
     {
         if (groundCheck == null) return false;
-        return Physics2D.OverlapCircle(groundCheck.position, groundCheckRadius, groundLayer) != null;
+
+        // Cast a ray downward from ground check position
+        RaycastHit2D hit = Physics2D.Raycast(groundCheck.position, Vector2.down, groundCheckRadius, groundLayer);
+        return hit.collider != null;
     }
 }
