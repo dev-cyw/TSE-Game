@@ -130,7 +130,7 @@ GameObject:
   - component: {fileID: 61590897}
   - component: {fileID: 61590896}
   m_Layer: 0
-  m_Name: Grid
+  m_Name: Level 5
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2324,6 +2324,43 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Player
   health: 100
+--- !u!70 &1703734748
+CapsuleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1703734746}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_CompositeOperation: 0
+  m_CompositeOrder: 0
+  m_Offset: {x: 0, y: 0}
+  m_Size: {x: 0.59375, y: 1.15625}
+  m_Direction: 0
 --- !u!1 &1725773313
 GameObject:
   m_ObjectHideFlags: 0
@@ -3275,13 +3312,17 @@ PrefabInstance:
       propertyPath: m_SortingOrder
       value: 1
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 3629817432938224667, guid: 489682447e923af4c9e212a9e32b607a, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 5629611024081452586, guid: 489682447e923af4c9e212a9e32b607a, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1703734747}
+    - targetCorrespondingSourceObject: {fileID: 5629611024081452586, guid: 489682447e923af4c9e212a9e32b607a, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1703734748}
   m_SourcePrefab: {fileID: 100100000, guid: 489682447e923af4c9e212a9e32b607a, type: 3}
 --- !u!1 &2091345920
 GameObject:

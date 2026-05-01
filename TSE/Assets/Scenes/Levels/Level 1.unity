@@ -710,7 +710,7 @@ MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 2295922182239965455, guid: 489682447e923af4c9e212a9e32b607a, type: 3}
   m_PrefabInstance: {fileID: 449847982719445376}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
+  m_GameObject: {fileID: 449847982719445377}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 04819b9691c05c040a72d77cbcc8ff4e, type: 3}
@@ -2467,14 +2467,60 @@ PrefabInstance:
       propertyPath: m_Material
       value: 
       objectReference: {fileID: 6200000, guid: 16443d55bd2fa064f927be83f0147ece, type: 2}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 3629817432938224667, guid: 489682447e923af4c9e212a9e32b607a, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 5629611024081452586, guid: 489682447e923af4c9e212a9e32b607a, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 449847982719445378}
     - targetCorrespondingSourceObject: {fileID: 4023939630118701155, guid: 489682447e923af4c9e212a9e32b607a, type: 3}
       insertIndex: -1
       addedObject: {fileID: 586004762}
   m_SourcePrefab: {fileID: 100100000, guid: 489682447e923af4c9e212a9e32b607a, type: 3}
+--- !u!1 &449847982719445377 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5629611024081452586, guid: 489682447e923af4c9e212a9e32b607a, type: 3}
+  m_PrefabInstance: {fileID: 449847982719445376}
+  m_PrefabAsset: {fileID: 0}
+--- !u!70 &449847982719445378
+CapsuleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 449847982719445377}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_CompositeOperation: 0
+  m_CompositeOrder: 0
+  m_Offset: {x: 0, y: 0}
+  m_Size: {x: 0.59375, y: 1.15625}
+  m_Direction: 0
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
