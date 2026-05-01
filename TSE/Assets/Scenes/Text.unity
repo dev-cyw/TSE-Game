@@ -345,7 +345,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.9403179, y: 0.9513018}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0.38000488, y: -0.16000366}
+  m_AnchoredPosition: {x: 0.38000488, y: -0.16003418}
   m_SizeDelta: {x: 3.2427979, y: 0.31500244}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &100434855
@@ -624,6 +624,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Compiler
   inputField: {fileID: 83640251}
+  playerMovement: {fileID: 0}
 --- !u!1 &230655420
 GameObject:
   m_ObjectHideFlags: 0

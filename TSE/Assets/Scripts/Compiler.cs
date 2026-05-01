@@ -19,28 +19,42 @@ public class Command
     }
 }
 
-
+public enum CommandResult { 
+    Success,
+    MissingArguement,
+    UnexpectedArguement,
+    Syntax
+}
 
 public class Compiler : MonoBehaviour
 {
     public TMP_InputField inputField;
-    private static readonly List<Command> ValidCommands = new()
+    public PlayerMovement2D playerMovement;
+    private List<Command> ValidCommands;
+
+    private void Awake()
     {
-        new Command("move_right", true, move_right),
-        new Command("jump", false, jump)
-    };
-    private static void move_right(string arg)
+        ValidCommands = new List<Command>
+        {
+            new Command("move_right", true, move_right),
+            new Command("jump", false, jump)
+        };
+    }
+
+    private void move_right(string arg)
     {
+        playerMovement.MoveRight(arg);
         print("Move right " + arg);
     }
 
-    private static void jump(string arg)
+    private void jump(string arg)
     {
         print("JUMP!");
     }
 
     public void ParseCommands()
     {
+        print("Parsing Commands...");
         string[] lines = inputField.text.Split(';');
         Queue<(Command cmd, string arg)> commandQueue = new();
 
@@ -49,14 +63,18 @@ public class Compiler : MonoBehaviour
             string trimmed = line.Trim();
             
             if(string.IsNullOrEmpty(trimmed)) { continue; }
-            
-            if (ValidateCommand(trimmed, out Command cmd, out string arg))
+
+            var result = ValidateCommand(trimmed, out Command cmd, out string arg);
+
+            switch (result)
             {
-                commandQueue.Enqueue((cmd, arg));
-            }
-            else
-            {
-                Debug.LogWarning("Error command not valid");
+                case CommandResult.Success: commandQueue.Enqueue((cmd, arg)); break;
+                case CommandResult.MissingArguement:
+                    print("Missing Arguement"); break;
+                case CommandResult.UnexpectedArguement: 
+                    print("Unexpected Arguement"); break;
+                case CommandResult.Syntax:
+                    print("Syntax Error"); break;
             }
         }
 
@@ -67,7 +85,7 @@ public class Compiler : MonoBehaviour
         }
     }
 
-    private bool ValidateCommand(string input, out Command matched, out string arg)
+    private CommandResult ValidateCommand(string input, out Command matched, out string arg)
     {
         matched = null;
         arg = string.Empty;
@@ -88,12 +106,12 @@ public class Compiler : MonoBehaviour
         {
             if (cmd.Name == commandName)
             {
-                if (cmd.HasArgs && string.IsNullOrEmpty(arg)) return false;
-                if (!cmd.HasArgs && !string.IsNullOrEmpty(arg)) return false;
+                if (cmd.HasArgs && string.IsNullOrEmpty(arg)) return CommandResult.MissingArguement;
+                if (!cmd.HasArgs && !string.IsNullOrEmpty(arg)) return CommandResult.UnexpectedArguement;
                 matched = cmd;
-                return true;
+                return CommandResult.Success;
             }
         }
-        return false;
+        return CommandResult.Syntax;
     }
 }

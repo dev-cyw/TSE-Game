@@ -1,6 +1,7 @@
 using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.Rendering;
 
 [RequireComponent(typeof(Rigidbody2D))]
 public class PlayerMovement2D : MonoBehaviour
@@ -82,6 +83,7 @@ public class PlayerMovement2D : MonoBehaviour
 
     private void FixedUpdate()
     {
+        /*
         float x = _moveAction.ReadValue<float>();
 
         float currentSpeed = isCrouching ? crouchSpeed : moveSpeed;
@@ -89,7 +91,7 @@ public class PlayerMovement2D : MonoBehaviour
 
         if (rb.linearVelocity.x < 0) sr.flipX = true;
         if (rb.linearVelocity.x > 0) sr.flipX = false;
-
+        
         animator.SetFloat("LinearVelocity", Mathf.Abs(x));
         animator.SetFloat("VerticalVelocity", rb.linearVelocity.y);
         animator.SetBool("isCrouching", isCrouching);
@@ -101,8 +103,8 @@ public class PlayerMovement2D : MonoBehaviour
         else
         {
             animator.SetBool("isGrounded", true);
-        } 
-            
+        }
+        */
     }
 
     private void OnJump(InputAction.CallbackContext ctx)
@@ -158,5 +160,19 @@ public class PlayerMovement2D : MonoBehaviour
         // Cast a ray downward from ground check position
         RaycastHit2D hit = Physics2D.Raycast(groundCheck.position, Vector2.down, groundCheckRadius, groundLayer);
         return hit.collider != null;
+    }
+
+    public void MoveRight(string arg)
+    {
+        float distance;
+        if (float.TryParse(arg, out distance))
+        {
+            print("MOVE RIGHT PLAYER " + distance);
+            rb.linearVelocity = new Vector2(distance * moveSpeed, rb.linearVelocity.y);
+        }
+        else
+        {
+            Debug.LogError($"Invalid argument for move_right: {arg}");
+        }
     }
 }
