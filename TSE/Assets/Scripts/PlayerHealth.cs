@@ -50,13 +50,12 @@ public class Player : MonoBehaviour
 
     private void Die()
     {
-        //rb.bodyType = RigidbodyType2D.Static;
         anim.SetTrigger("Death");
     }
 
     private void RestartLevel()
     {
-        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name); //reload the current scene
     }
 }
 
