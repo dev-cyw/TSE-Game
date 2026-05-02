@@ -21,8 +21,8 @@ public class Command
 
 public enum CommandResult { 
     Success,
-    MissingArguement,
-    UnexpectedArguement,
+    MissingArgument,
+    UnexpectedArgument,
     Syntax
 }
 
@@ -36,25 +36,14 @@ public class Compiler : MonoBehaviour
     {
         ValidCommands = new List<Command>
         {
-            new Command("move_right", true, move_right),
-            new Command("jump", false, jump)
+            new Command("move_right", true, playerMovement.MoveRight),
+            new Command("move_left", true, playerMovement.MoveLeft),
+            new Command("jump", false, playerMovement.Jump),
+            new Command("crouch", true, playerMovement.Crouch)
         };
     }
-
-    private void move_right(string arg)
-    {
-        playerMovement.MoveRight(arg);
-        print("Move right " + arg);
-    }
-
-    private void jump(string arg)
-    {
-        print("JUMP!");
-    }
-
     public void ParseCommands()
     {
-        print("Parsing Commands...");
         string[] lines = inputField.text.Split(';');
         Queue<(Command cmd, string arg)> commandQueue = new();
 
@@ -65,13 +54,12 @@ public class Compiler : MonoBehaviour
             if(string.IsNullOrEmpty(trimmed)) { continue; }
 
             var result = ValidateCommand(trimmed, out Command cmd, out string arg);
-
             switch (result)
             {
                 case CommandResult.Success: commandQueue.Enqueue((cmd, arg)); break;
-                case CommandResult.MissingArguement:
-                    print("Missing Arguement"); break;
-                case CommandResult.UnexpectedArguement: 
+                case CommandResult.MissingArgument:
+                    print("Missing Argument"); break;
+                case CommandResult.UnexpectedArgument: 
                     print("Unexpected Arguement"); break;
                 case CommandResult.Syntax:
                     print("Syntax Error"); break;
@@ -101,13 +89,12 @@ public class Compiler : MonoBehaviour
         {
             arg = input[(parenOpen + 1)..parenClose].Trim();
         }
-
         foreach (Command cmd in ValidCommands)
         {
             if (cmd.Name == commandName)
             {
-                if (cmd.HasArgs && string.IsNullOrEmpty(arg)) return CommandResult.MissingArguement;
-                if (!cmd.HasArgs && !string.IsNullOrEmpty(arg)) return CommandResult.UnexpectedArguement;
+                if (cmd.HasArgs && string.IsNullOrEmpty(arg)) return CommandResult.MissingArgument;
+                if (!cmd.HasArgs && !string.IsNullOrEmpty(arg)) return CommandResult.UnexpectedArgument;
                 matched = cmd;
                 return CommandResult.Success;
             }

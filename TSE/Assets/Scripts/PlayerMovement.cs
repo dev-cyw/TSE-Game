@@ -1,4 +1,6 @@
 using System;
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.Rendering;
@@ -51,11 +53,11 @@ public class PlayerMovement2D : MonoBehaviour
             .With("Positive", "<Keyboard>/d")
             .With("Positive", "<Keyboard>/rightArrow");
 
-        _jumpAction = new InputAction(type: InputActionType.Button);
-        _jumpAction.AddBinding("<Keyboard>/space");
+        //_jumpAction = new InputAction(type: InputActionType.Button);
+        //_jumpAction.AddBinding("<Keyboard>/space");
 
-        _crouchAction = new InputAction(type: InputActionType.Button);
-        _crouchAction.AddBinding("<Keyboard>/c");
+        //_crouchAction = new InputAction(type: InputActionType.Button);
+        //_crouchAction.AddBinding("<Keyboard>/c");
 
         animator = GetComponent<Animator>();
     }
@@ -83,16 +85,15 @@ public class PlayerMovement2D : MonoBehaviour
 
     private void FixedUpdate()
     {
-        /*
-        float x = _moveAction.ReadValue<float>();
+        //float x = _moveAction.ReadValue<float>();
 
-        float currentSpeed = isCrouching ? crouchSpeed : moveSpeed;
-        rb.linearVelocity = new Vector2(x * moveSpeed, rb.linearVelocity.y);
+        //float currentSpeed = isCrouching ? crouchSpeed : moveSpeed;
+        //rb.linearVelocity = new Vector2(x * moveSpeed, rb.linearVelocity.y);
 
         if (rb.linearVelocity.x < 0) sr.flipX = true;
         if (rb.linearVelocity.x > 0) sr.flipX = false;
         
-        animator.SetFloat("LinearVelocity", Mathf.Abs(x));
+        animator.SetFloat("LinearVelocity", Mathf.Abs(rb.linearVelocity.x));
         animator.SetFloat("VerticalVelocity", rb.linearVelocity.y);
         animator.SetBool("isCrouching", isCrouching);
         if (!IsGrounded())
@@ -104,7 +105,6 @@ public class PlayerMovement2D : MonoBehaviour
         {
             animator.SetBool("isGrounded", true);
         }
-        */
     }
 
     private void OnJump(InputAction.CallbackContext ctx)
@@ -164,15 +164,93 @@ public class PlayerMovement2D : MonoBehaviour
 
     public void MoveRight(string arg)
     {
-        float distance;
-        if (float.TryParse(arg, out distance))
-        {
-            print("MOVE RIGHT PLAYER " + distance);
-            rb.linearVelocity = new Vector2(distance * moveSpeed, rb.linearVelocity.y);
-        }
+        if (float.TryParse(arg, out float distance))
+            Enqueue(MoveRightCoroutine(distance));
         else
-        {
             Debug.LogError($"Invalid argument for move_right: {arg}");
-        }
+    }
+
+    private IEnumerator MoveRightCoroutine(float distance)
+    {
+        float targetX = rb.position.x + distance;
+        rb.linearVelocity = new Vector2(moveSpeed, rb.linearVelocity.y);
+        while (rb.position.x < targetX)
+            yield return new WaitForFixedUpdate();
+        rb.linearVelocity = new Vector2(0f, rb.linearVelocity.y);
+        rb.MovePosition(new Vector2(targetX, rb.position.y));
+    }
+
+    public void MoveLeft(string arg)
+    {
+        if (float.TryParse(arg, out float distance))
+            Enqueue(MoveLeftCoroutine(distance));
+        else
+            Debug.LogError($"Invalid argument for move_left: {arg}");
+    }
+
+    private IEnumerator MoveLeftCoroutine(float distance)
+    {
+        float targetX = rb.position.x - distance;
+        rb.linearVelocity = new Vector2(-moveSpeed, rb.linearVelocity.y);
+        while (rb.position.x > targetX)
+            yield return new WaitForFixedUpdate();
+        rb.linearVelocity = new Vector2(0f, rb.linearVelocity.y);
+        rb.MovePosition(new Vector2(targetX, rb.position.y));
+    }
+
+    public void Jump(string _)
+    {
+        Enqueue(JumpCoroutine());
+    }
+
+    private IEnumerator JumpCoroutine()
+    {
+        isCrouching = false;
+        UpdateCrouchScale();
+
+        rb.linearVelocity = new Vector2(rb.linearVelocity.x, 0f);
+        rb.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
+        animator.SetBool("isGrounded", false);
+
+        yield return new WaitUntil(() => IsGrounded());
+        animator.SetBool("isGrounded", true);
+    }
+
+    public void Crouch(string arg)
+    {
+        Debug.Log($"Crouch called with: '{arg}'");
+        bool.TryParse(arg, out bool isCrouch);
+        Enqueue(isCrouch ? CrouchCoroutine() : UnCrouchCoroutine());
+    }
+
+    private IEnumerator CrouchCoroutine()
+    {
+        isCrouching = true;
+        UpdateCrouchScale();
+        yield break;
+    }
+
+    private IEnumerator UnCrouchCoroutine()
+    {
+        isCrouching = false;
+        UpdateCrouchScale();
+        yield break;
+    }
+    
+    private Queue<IEnumerator> _commandQueue = new();
+    private bool _running = false;
+
+    public void Enqueue(IEnumerator command)
+    {
+        _commandQueue.Enqueue(command);
+        if (!_running) StartCoroutine(RunQueue());
+    }
+
+    private IEnumerator RunQueue()
+    {
+        _running = true;
+        while (_commandQueue.Count > 0)
+            yield return StartCoroutine(_commandQueue.Dequeue());
+        _running = false;
     }
 }
