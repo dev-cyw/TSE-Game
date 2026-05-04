@@ -30,6 +30,7 @@ public class Compiler : MonoBehaviour
 {
     public TMP_InputField inputField;
     public PlayerMovement2D playerMovement;
+    public Button hideBTN;
     private List<Command> ValidCommands;
 
     private void Awake()
@@ -42,6 +43,7 @@ public class Compiler : MonoBehaviour
             new Command("crouch", true, playerMovement.Crouch)
         };
     }
+
     public void ParseCommands()
     {
         string[] lines = inputField.text.Split(';');
@@ -65,6 +67,9 @@ public class Compiler : MonoBehaviour
                     print("Syntax Error"); break;
             }
         }
+
+        inputField.gameObject.SetActive(false);
+        //hideBTN.gameObject.SetActive(false);
 
         while (commandQueue.Count > 0)
         {

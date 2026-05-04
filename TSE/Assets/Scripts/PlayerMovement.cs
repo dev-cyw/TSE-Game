@@ -1,9 +1,11 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.Rendering;
+using UnityEngine.UI;
 
 [RequireComponent(typeof(Rigidbody2D))]
 public class PlayerMovement2D : MonoBehaviour
@@ -33,6 +35,9 @@ public class PlayerMovement2D : MonoBehaviour
     private InputAction _crouchAction;
 
     private Animator animator;
+    public TMP_InputField inputField;
+    public Button hideBTN;
+
 
     private void Reset()
     {
@@ -64,23 +69,11 @@ public class PlayerMovement2D : MonoBehaviour
 
     private void OnEnable()
     {
-        _moveAction.Enable();
-        _jumpAction.Enable();
-        _jumpAction.performed += OnJump;
 
-        _crouchAction.Enable();
-        _crouchAction.performed += OnCrouchPressed;
-        _crouchAction.canceled += OnCrouchReleased;
     }
     private void OnDisable()
     {
-        _moveAction.Disable();
-        _jumpAction.Disable();
-        _jumpAction.performed -= OnJump;
 
-        _crouchAction.Disable();
-        _crouchAction.performed -= OnCrouchPressed;
-        _crouchAction.canceled -= OnCrouchReleased;
     }
 
     private void FixedUpdate()
@@ -191,9 +184,13 @@ public class PlayerMovement2D : MonoBehaviour
     private IEnumerator MoveLeftCoroutine(float distance)
     {
         float targetX = rb.position.x - distance;
+        const float timeout = 3f;
+        float t = 0f;
         rb.linearVelocity = new Vector2(-moveSpeed, rb.linearVelocity.y);
-        while (rb.position.x > targetX)
+        while (rb.position.x > targetX && t < timeout) {
+            t+= Time.deltaTime;
             yield return new WaitForFixedUpdate();
+        }
         rb.linearVelocity = new Vector2(0f, rb.linearVelocity.y);
         rb.MovePosition(new Vector2(targetX, rb.position.y));
     }
@@ -248,9 +245,14 @@ public class PlayerMovement2D : MonoBehaviour
 
     private IEnumerator RunQueue()
     {
+
         _running = true;
         while (_commandQueue.Count > 0)
+        {
             yield return StartCoroutine(_commandQueue.Dequeue());
+        }
         _running = false;
+
+        inputField.gameObject.SetActive(true);
     }
 }
