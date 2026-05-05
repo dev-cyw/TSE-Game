@@ -2060,6 +2060,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: CodeInput
       objectReference: {fileID: 0}
+    - target: {fileID: 4255735816410219878, guid: 015c4180ee4d84640b55ca39eab182f9, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: -0.0000076293945
+      objectReference: {fileID: 0}
     - target: {fileID: 4447769961810945555, guid: 015c4180ee4d84640b55ca39eab182f9, type: 3}
       propertyPath: m_Pivot.x
       value: 0
@@ -2139,6 +2143,14 @@ PrefabInstance:
     - target: {fileID: 4447769961810945555, guid: 015c4180ee4d84640b55ca39eab182f9, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7393806129128775473, guid: 015c4180ee4d84640b55ca39eab182f9, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: -0.0000076293945
+      objectReference: {fileID: 0}
+    - target: {fileID: 7393806129128775473, guid: 015c4180ee4d84640b55ca39eab182f9, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -0.00004005432
       objectReference: {fileID: 0}
     - target: {fileID: 8480130097152795399, guid: 015c4180ee4d84640b55ca39eab182f9, type: 3}
       propertyPath: playerMovement

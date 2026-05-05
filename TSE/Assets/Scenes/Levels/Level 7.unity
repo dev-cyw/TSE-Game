@@ -2724,17 +2724,6 @@ CapsuleCollider2D:
   m_Offset: {x: 0, y: 0}
   m_Size: {x: 0.59375, y: 1.15625}
   m_Direction: 0
---- !u!114 &819613604 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 2295922182239965455, guid: 489682447e923af4c9e212a9e32b607a, type: 3}
-  m_PrefabInstance: {fileID: 819613600}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 819613601}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 04819b9691c05c040a72d77cbcc8ff4e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::PlayerMovement
 --- !u!1 &854299658
 GameObject:
   m_ObjectHideFlags: 0
@@ -3144,7 +3133,7 @@ Canvas:
   m_SortingLayerID: 0
   m_SortingOrder: -1
   m_TargetDisplay: 0
---- !u!1001 &1646690947
+--- !u!1001 &1636626207
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
@@ -3155,6 +3144,10 @@ PrefabInstance:
     - target: {fileID: 23808082222393573, guid: 015c4180ee4d84640b55ca39eab182f9, type: 3}
       propertyPath: m_Name
       value: CodeInput
+      objectReference: {fileID: 0}
+    - target: {fileID: 4255735816410219878, guid: 015c4180ee4d84640b55ca39eab182f9, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: -0.0000076293945
       objectReference: {fileID: 0}
     - target: {fileID: 4447769961810945555, guid: 015c4180ee4d84640b55ca39eab182f9, type: 3}
       propertyPath: m_Pivot.x
@@ -3236,10 +3229,18 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7393806129128775473, guid: 015c4180ee4d84640b55ca39eab182f9, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: -0.0000076293945
+      objectReference: {fileID: 0}
+    - target: {fileID: 7393806129128775473, guid: 015c4180ee4d84640b55ca39eab182f9, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -0.00004005432
+      objectReference: {fileID: 0}
     - target: {fileID: 8480130097152795399, guid: 015c4180ee4d84640b55ca39eab182f9, type: 3}
       propertyPath: playerMovement
       value: 
-      objectReference: {fileID: 819613604}
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -4538,6 +4539,6 @@ SceneRoots:
   m_Roots:
   - {fileID: 854299662}
   - {fileID: 819613600}
+  - {fileID: 1636626207}
   - {fileID: 524487076}
-  - {fileID: 1646690947}
   - {fileID: 1450625620}
