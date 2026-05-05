@@ -166,9 +166,13 @@ public class PlayerMovement2D : MonoBehaviour
     private IEnumerator MoveRightCoroutine(float distance)
     {
         float targetX = rb.position.x + distance;
+        const float timeout = 3f;
+        float t = 0f;
         rb.linearVelocity = new Vector2(moveSpeed, rb.linearVelocity.y);
-        while (rb.position.x < targetX)
+        while (rb.position.x < targetX && t < timeout) {
+            t += Time.deltaTime;
             yield return new WaitForFixedUpdate();
+        }
         rb.linearVelocity = new Vector2(0f, rb.linearVelocity.y);
         rb.MovePosition(new Vector2(targetX, rb.position.y));
     }
